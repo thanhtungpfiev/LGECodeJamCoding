@@ -1,4 +1,4 @@
-/**********************************************************************
+﻿/**********************************************************************
  *
  * author vcs tung.dao@lge.com
  *
@@ -18,10 +18,10 @@
 
 using namespace std;
 
-map<char, int> keyboardMap;
 
-void initKeyboardMap()
+map<char, int> initKeyboardMap()
 {
+    map<char, int> keyboardMap;
     keyboardMap.insert({'Q', 0});
     keyboardMap.insert({'W', 1});
     keyboardMap.insert({'E', 2});
@@ -48,6 +48,7 @@ void initKeyboardMap()
     keyboardMap.insert({'B', 23});
     keyboardMap.insert({'N', 24});
     keyboardMap.insert({'M', 25});
+    return keyboardMap;
 }
 
 void addEdge(vector<vector<int>>& adj, int src, int dest)
@@ -85,9 +86,8 @@ int BFS(const vector<vector<int>>& adj, int src, int dest)
     return 0;
 }
 
-vector<vector<int>> initGraph()
+vector<vector<int>> initGraph(map<char, int>& keyboardMap)
 {
-    initKeyboardMap();
     vector<vector<int>> adj(keyboardMap.size());
 
     addEdge(adj, keyboardMap['Q'], keyboardMap['W']);
@@ -180,7 +180,8 @@ void inputByReadConsole()
     int T = 0;
     cin >> T;
     string s = "";
-    vector<vector<int>> adj = initGraph();
+    map<char, int> keyboardMap = initKeyboardMap();
+    vector<vector<int>> adj = initGraph(keyboardMap);
     while (T --> 0) {
         cin >> s;
         int sum = 0;
@@ -199,7 +200,8 @@ void inputByReadFile()
     int T = 0;
     fileInput >> T;
     string s = "";
-    vector<vector<int>> adj = initGraph();
+    map<char, int> keyboardMap = initKeyboardMap();
+    vector<vector<int>> adj = initGraph(keyboardMap);
     while (T --> 0) {
         fileInput >> s;
         int sum = 0;
