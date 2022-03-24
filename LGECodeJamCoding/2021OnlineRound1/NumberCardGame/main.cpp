@@ -66,17 +66,26 @@ string mul(vector<int>& S, vector<int>& D, int B)
     return result;
 }
 
-void genBinaryArray(vector<vector<int>>& binaryArray, vector<int>& c, int step)
+void genBinaryArrayAndFindBest(const vector<int>& arr, vector<int>& c, long long& best, int step)
 {
     if (step == c.size()) {
-        if (count(c.begin(), c.end(), 1) + count(c.begin(), c.end(), 0) == c.size()) {
-            binaryArray.push_back(c);
+        int cnt1 = 0, cnt2 = 0;
+        long long firstNumber = 0, secondNumber = 0;
+        for (int i = c.size() - 1; i >= 0; --i) {
+            if (c[i] == false) {
+                firstNumber += arr[i] * pow(10, cnt1);
+                ++cnt1;
+            } else {
+                secondNumber += arr[i] * pow(10, cnt2);
+                ++cnt2;
+            }
         }
+        best = max(best, firstNumber * secondNumber);
         return;
     }
     for (int i = 0; i < 2; ++i) {
         c[step] = i;
-        genBinaryArray(binaryArray, c, step + 1);
+        genBinaryArrayAndFindBest(arr, c, best, step + 1);
     }
 }
 
@@ -98,32 +107,16 @@ void inputByReadConsole()
             }
         }
         sort(arr.begin(), arr.end(), greater<int>());
-        vector<vector<int>> binaryArray;
-        vector<int> c(arr.size());
-        genBinaryArray(binaryArray, c, 0);
         long long result = 0;
-        for (int i = 0; i < binaryArray.size(); ++i) {
-            vector<int> e = binaryArray[i];
-            int cnt1 = 0, cnt2 = 0;
-            long long firstNum = 0, secondNum = 0;
-            for (int j = e.size() - 1; j >= 0; --j) {
-                if (e[j] == false) {
-                    firstNum += arr[j] * pow(10, cnt1);
-                    cnt1++;
-                } else {
-                    secondNum += arr[j] * pow(10, cnt2);
-                    cnt2++;
-                }
-            }
-            result = max(result, firstNum * secondNum);
-        }
+        vector<int> c(arr.size());
+        genBinaryArrayAndFindBest(arr, c, result, 0);
         cout << result << endl;
     }
 }
 
 void inputByReadFile()
 {
-    ifstream fileInput("F:/Research/CodingPractice/LGECodeJamCoding/LGECodeJamCoding/2021OnlineRound1/NumberCardGame/input.txt");
+    ifstream fileInput("/media/sf_D_DRIVE/CodingPractices/LGECodeJamCoding/LGECodeJamCoding/2021OnlineRound1/NumberCardGame/input.txt");
     string str;
     fileInput >> str;
     int T = 0;
@@ -142,28 +135,11 @@ void inputByReadFile()
             }
         }
         sort(arr.begin(), arr.end(), greater<int>());
-        vector<vector<int>> binaryArray;
-        vector<int> c(arr.size());
-        genBinaryArray(binaryArray, c, 0);
         long long result = 0;
-        for (int i = 0; i < binaryArray.size(); ++i) {
-            vector<int> e = binaryArray[i];
-            int cnt1 = 0, cnt2 = 0;
-            long long firstNum = 0, secondNum = 0;
-            for (int j = e.size() - 1; j >= 0; --j) {
-                if (e[j] == false) {
-                    firstNum += arr[j] * pow(10, cnt1);
-                    cnt1++;
-                } else {
-                    secondNum += arr[j] * pow(10, cnt2);
-                    cnt2++;
-                }
-            }
-            result = max(result, firstNum * secondNum);
-        }
+        vector<int> c(arr.size());
+        genBinaryArrayAndFindBest(arr, c, result, 0);
         cout << result << endl;
     }
-    fileInput.close();
 }
 
 int main()
