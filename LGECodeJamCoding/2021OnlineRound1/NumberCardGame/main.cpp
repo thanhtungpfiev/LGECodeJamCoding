@@ -89,6 +89,20 @@ void genBinaryArrayAndFindBest(const vector<int>& arr, vector<int>& c, long long
     }
 }
 
+long long greedy(const vector<int>& arr)
+{
+    long long result = 0, firstNumber = 0, secondNumber = 0;
+    for (int i = 0; i < arr.size(); ++i) {
+        if (firstNumber < secondNumber) {
+            firstNumber = firstNumber * 10 + arr[i];
+        } else {
+            secondNumber = secondNumber * 10 + arr[i];
+        }
+    }
+    result = firstNumber * secondNumber;
+    return result;
+}
+
 void inputByReadConsole()
 {
     int T = 0;
@@ -108,8 +122,9 @@ void inputByReadConsole()
         }
         sort(arr.begin(), arr.end(), greater<int>());
         long long result = 0;
-        vector<int> c(arr.size());
-        genBinaryArrayAndFindBest(arr, c, result, 0);
+//        vector<int> c(arr.size());
+//        genBinaryArrayAndFindBest(arr, c, result, 0);
+        result = greedy(arr);
         cout << result << endl;
     }
 }
@@ -136,8 +151,9 @@ void inputByReadFile()
         }
         sort(arr.begin(), arr.end(), greater<int>());
         long long result = 0;
-        vector<int> c(arr.size());
-        genBinaryArrayAndFindBest(arr, c, result, 0);
+//        vector<int> c(arr.size());
+//        genBinaryArrayAndFindBest(arr, c, result, 0);
+        result = greedy(arr);
         cout << result << endl;
     }
 }
